@@ -27,6 +27,12 @@ export const updateOneUser = async (data, state) => {
   state(request.data);
 }
 
+export const deleteOneUser = async (data, state) => {
+  const id = data.id;
+  const request = await axios.delete(`https://api-capture-the-flag.herokuapp.com/api/users/${id}`);
+  state(request.data);
+}
+
 export const getAllMissions = async (state) => {
   const request = await axios.get('https://api-capture-the-flag.herokuapp.com/api/missions');
   state(request.data);

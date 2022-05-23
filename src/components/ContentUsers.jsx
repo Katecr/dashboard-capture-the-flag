@@ -55,13 +55,25 @@ const ContentUsers = () => {
   }
 
   const addUsersLocal=async(fieldsForm,state)=>{
-    await addUsers(fieldsForm, state);
-    openModalCreate();
+    await addUsers(fieldsForm, state)
+    .then(response =>{
+      openModalCreate();
+    });
+    
   }
 
   const updateUsersLocal=async(fieldsForm,state)=>{
-    await updateOneUser(fieldsForm, state);
-    openModalEdit();
+    await updateOneUser(fieldsForm, state)
+    .then(response =>{
+      openModalEdit();
+    });   
+  }
+
+  const deleteUsersLocal=async(fieldsForm,state)=>{
+    await updateOneUser(fieldsForm, state)
+    .then(response =>{
+      openModalDelete();
+    });   
   }
 
   return (
@@ -283,6 +295,34 @@ const ContentUsers = () => {
             </ModalFooter>
         </Modal>
       {/* Fin modal Update */}
+      {/* Modal Delete */}
+      <Modal isOpen={modalDelete} >
+            <ModalHeader>
+            <div><h3>Delete User</h3></div>
+            </ModalHeader>
+            <ModalBody>  
+              {fieldsForm != null ? (
+                <>         
+              <p>¿Estás seguro que deseas eliminar? el usuario <b>{fieldsForm.name}</b></p>
+              </>
+              ) : ('No users in the system') }
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color="primary"
+                onClick={() => deleteUsersLocal(fieldsForm, setUsers)}
+              >
+                Delete
+              </Button>
+              <Button
+                className="btn btn-danger"
+                onClick={() => openModalDelete()}
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+        </Modal>
+      {/* Fin modal Delete */}
     </>
   );
 }

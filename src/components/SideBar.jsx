@@ -28,7 +28,7 @@ function SideBar(){
 					</Link>
 				</li>
 
-				{ (roleCookie === 'player') ? (
+				{ (roleCookie === 'admin') ? (
 					<>
 							{/* <!-- Divider --> */}
 						<hr className="sidebar-divider"/>
