@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Import function getAllUser
-import { getAllUsers, addUsers } from '../functions/requests';
+import { getAllUsers, addUsers, updateOneUser } from '../functions/requests';
 
 import {
   Button,
@@ -16,6 +16,8 @@ const ContentUsers = () => {
 
   const [users, setUsers] = useState(null);
   const [modalAdd, setModalAdd] = useState(false);
+  const [modalUpdate, setModalUpdate] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
   const [fieldsForm, setFieldsForm]=useState({
     name:'',
     lastname: '',
@@ -32,16 +34,34 @@ const ContentUsers = () => {
   }
 
   useEffect(() => {
-    getAllUsers(setUsers);
-  }, [modalAdd, users]);
+    getAllUsers(setUsers);    
+  }, [modalAdd, users, modalUpdate, modalDelete,fieldsForm]);
 
-   const openModal = () => {
+   const openModalCreate = () => {
     setModalAdd(!modalAdd);
+  }
+
+  const openModalEdit = () => {
+    setModalUpdate(!modalUpdate);
+  }
+
+  const openModalDelete = () => {
+    setModalDelete(!modalDelete);
+  }
+
+  const selectConsola=(user, caseModal)=>{
+    setFieldsForm(user);
+    (caseModal === 'Edit') ? openModalEdit() : openModalDelete()
   }
 
   const addUsersLocal=async(fieldsForm,state)=>{
     await addUsers(fieldsForm, state);
-    openModal();
+    openModalCreate();
+  }
+
+  const updateUsersLocal=async(fieldsForm,state)=>{
+    await updateOneUser(fieldsForm, state);
+    openModalEdit();
   }
 
   return (
@@ -51,7 +71,7 @@ const ContentUsers = () => {
           <h1 className="h3 mb-0 text-gray-800">Users</h1>
         </div>
         <div className="td-actions">
-          <button onClick={()=> openModal()}>
+          <button onClick={()=> openModalCreate()}>
             <i className="fas fa-plus"></i>
             <span>Add new</span>            
           </button>
@@ -75,14 +95,14 @@ const ContentUsers = () => {
                   <td>{user.lastname}</td>
                   <td>{user.email}</td>
                   <td className="td-actions">
-                    <a href={`./users/${user.id}`}>
+                    <button onClick={()=>selectConsola(user, 'Edit')} >
                       <i className="fas fa-edit"></i>
                       <span>Edit</span>
-                    </a>
-                    <a href={`./users/${user.id}`}>
+                    </button>
+                    <button onClick={()=>selectConsola(user, 'Delete')}>
                       <i className="fas fa-trash-alt"></i>
                       <span>Delete</span>
-                    </a>
+                    </button>
                   </td>
                 </tr>  
                                        
@@ -92,75 +112,177 @@ const ContentUsers = () => {
         </table>
       </div>
       {/* Modal Add */}
-    <Modal isOpen={modalAdd} >
-          <ModalHeader>
-           <div><h3>Add User</h3></div>
-          </ModalHeader>
+        <Modal isOpen={modalAdd} >
+              <ModalHeader>
+              <div><h3>Add User</h3></div>
+              </ModalHeader>
 
-          <ModalBody>            
-            <FormGroup>
-              <label>
-               Name: 
-              </label>
-              <input
-                className="form-control"
-                name="name"
-                type="text"
-                onChange={handleChange}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Lastname: 
-              </label>
-              <input
-                className="form-control"
-                name="lastname"
-                type="text"
-                onChange={handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>
-                Email: 
-              </label>
-              <input
-                className="form-control"
-                name="email"
-                type="text"
-                onChange={handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>
-                Password: 
-              </label>
-              <input
-                className="form-control"
-                name="password"
-                type="password"
-                onChange={handleChange}
-              />
-            </FormGroup>
-          </ModalBody>
+              <ModalBody>            
+                <FormGroup>
+                  <label>
+                  Name: 
+                  </label>
+                  <input
+                    className="form-control"
+                    name="name"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                
+                <FormGroup>
+                  <label>
+                    Lastname: 
+                  </label>
+                  <input
+                    className="form-control"
+                    name="lastname"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <label>
+                    Email: 
+                  </label>
+                  <input
+                    className="form-control"
+                    name="email"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <label>
+                    Password: 
+                  </label>
+                  <input
+                    className="form-control"
+                    name="password"
+                    type="password"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </ModalBody>
 
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={() => addUsersLocal(fieldsForm, setUsers)}
-            >
-              Insertar
-            </Button>
-            <Button
-              className="btn btn-danger"
-              onClick={() => openModal()}
-            >
-              Cancelar
-            </Button>
-          </ModalFooter>
-    </Modal>
-    {/* Fin modal Add */}
+              <ModalFooter>
+                <Button
+                  color="primary"
+                  onClick={() => addUsersLocal(fieldsForm, setUsers)}
+                >
+                  Insertar
+                </Button>
+                <Button
+                  className="btn btn-danger"
+                  onClick={() => openModalCreate()}
+                >
+                  Cancelar
+                </Button>
+              </ModalFooter>
+        </Modal>
+      {/* Fin modal Add */}
+      {/* Modal Update */}
+        <Modal isOpen={modalUpdate} >
+            <ModalHeader>
+            <div><h3>Update User</h3></div>
+            </ModalHeader>
+            <ModalBody>  
+              {fieldsForm != null ? (
+                <>         
+              <FormGroup>
+                <label>
+                Name: 
+                </label>
+                <input
+                  className="form-control"
+                  name="name"
+                  type="text"
+                  onChange={handleChange}
+                  value={fieldsForm.name}
+                />
+              </FormGroup>
+              
+              <FormGroup>
+                <label>
+                  Lastname: 
+                </label>
+                <input
+                  className="form-control"
+                  name="lastname"
+                  type="text"
+                  onChange={handleChange}
+                  value={fieldsForm.lastname}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label>
+                  Email: 
+                </label>
+                <input
+                  className="form-control"
+                  name="email"
+                  type="text"
+                  onChange={handleChange}
+                  value={fieldsForm.email}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label>
+                  Password: 
+                </label>
+                <input
+                  className="form-control"
+                  name="password"
+                  type="password"
+                  onChange={handleChange}
+                  value={fieldsForm.password}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label>
+                  Role: 
+                </label>
+                <input
+                  className="form-control"
+                  name="role"
+                  type="text"
+                  onChange={handleChange}
+                  value={fieldsForm.role}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label>
+                  Avatar: 
+                </label>
+                <input
+                  className="form-control"
+                  name="avatar"
+                  type="hidden"
+                  onChange={handleChange}
+                  value={fieldsForm.avatar}
+                />
+                <img src={fieldsForm.avatar} alt={fieldsForm.name} />
+              </FormGroup>
+              </>
+              ) : ('No users in the system') }
+              
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color="primary"
+                onClick={() => updateUsersLocal(fieldsForm, setUsers)}
+              >
+                Update
+              </Button>
+              <Button
+                className="btn btn-danger"
+                onClick={() => openModalEdit()}
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+        </Modal>
+      {/* Fin modal Update */}
     </>
   );
 }

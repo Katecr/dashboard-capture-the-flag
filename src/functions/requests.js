@@ -20,6 +20,13 @@ export const findOneUser = async (idUser, state) => {
   state(request.data);
 }
 
+export const updateOneUser = async (data, state) => {
+  const id = data.id; 
+  delete data.id;
+  const request = await axios.patch(`https://api-capture-the-flag.herokuapp.com/api/users/${id}`,data);
+  state(request.data);
+}
+
 export const getAllMissions = async (state) => {
   const request = await axios.get('https://api-capture-the-flag.herokuapp.com/api/missions');
   state(request.data);

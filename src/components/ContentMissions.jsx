@@ -250,13 +250,13 @@ const ContentMissions = () => {
               color="primary"
               onClick={() => openModal()}      
             >
-              Insertar
+              Insert
             </Button>
             <Button
               className="btn btn-danger"
               onClick={fieldsForm}
             >
-              Cancelar
+              Cancel
             </Button>
           </ModalFooter>
     </Modal>
