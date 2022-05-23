@@ -15,15 +15,19 @@ export const getAllUsers = async (state) => {
   state(request.data);
 }
 
-export const login = async()=>{
-  await axios.get('https://api-capture-the-flag.herokuapp.com/api/users')
-  .then(response=>{
-    const data =  response.data;
-    const validUser = data.find(user => user.email === this.state.form.email);
+export const getAllMissions = async (state) => {
+  const request = await axios.get('https://api-capture-the-flag.herokuapp.com/api/missions');
+  state(request.data);
+}
+
+export const login = async(state)=>{
+  const request = await axios.get('https://api-capture-the-flag.herokuapp.com/api/users');
+  try {
+    const validUser = await request.data.find(user => user.email === state.form.email);
     if(!validUser){
       throw new Error('El usuario no existe');
     }
-    if(validUser.password !== md5(this.state.form.password)){
+    if(validUser.password !== md5(state.form.password)){
       throw new Error('Contraseña incorrecta');
     }
     if(validUser){
@@ -36,11 +40,14 @@ export const login = async()=>{
     }else{
       throw new Error('El usuario o la contraseña no son correctos');
     }
-  })
-  .catch(error =>{
+  } catch (error) {
     throw new Error(error);
-  })
+  }
+}
 
+export const findOneUser = async (idUser, state) => {
+  const request = await axios.get(`https://api-capture-the-flag.herokuapp.com/api/users/${idUser}`);
+  state(request.data);
 }
 
 export const userLogout = () => {
@@ -50,4 +57,8 @@ export const userLogout = () => {
   cookies.remove('role', {path: '/'});
   cookies.remove('avatar', {path: '/'});
   window.location.href="./";
+}
+
+export const update = () =>{
+
 }

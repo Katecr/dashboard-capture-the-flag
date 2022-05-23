@@ -18,7 +18,7 @@ const Login = () => {
     <>
       {users != null ? (
         <Formlogin />
-      ) : ('No hay usuarios en el sistema')}
+      ) : ('No users in the system')}
     </>
   );
 }

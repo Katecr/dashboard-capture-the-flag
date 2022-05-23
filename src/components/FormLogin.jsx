@@ -27,7 +27,7 @@ class Formlogin extends Component {
         <div className="bg-form-login flex-v">          
           <input type="email" name="email" className="input-login" placeholder="Correo electrónico" onChange={this.handleChange}/>
           <input type="password" name="password" className="input-login" placeholder="Contraseña" onChange={this.handleChange}/>
-          <button className="btn-blue" onClick={()=> login()}>Ingresar</button>      
+          <button className="btn-blue" onClick={()=> login(this.state)}>Ingresar</button>      
         </div>
       </div>
     );
