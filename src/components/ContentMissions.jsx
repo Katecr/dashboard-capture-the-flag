@@ -15,36 +15,36 @@ import { getAllMissions} from '../functions/requests';
 const ContentMissions = () => {
 
   const [missions, setMissions] = useState(null);
-  const [modalAdd, setModalAdd] = useState(false);
-  const [fieldsForm, setFieldsForm]=useState({
-    id: '',
-    title:'',
-    points: '',
-    skills: '',
-    role: '',
-    time: '',
-    flag: '',
-    category: '',
-    visualization: '',
-    competence: '',
-    isAvailable: ''
-  })
+  // const [modalAdd, setModalAdd] = useState(false);
+  // const [fieldsForm, setFieldsForm]=useState({
+  //   id: '',
+  //   title:'',
+  //   points: '',
+  //   skills: '',
+  //   role: '',
+  //   time: '',
+  //   flag: '',
+  //   category: '',
+  //   visualization: '',
+  //   competence: '',
+  //   isAvailable: ''
+  // })
 
-  const handleChange=e=>{
-    const {name, value}=e.target;
-    setFieldsForm(prevState=>({
-      ...prevState,
-      [name]: value
-    }))
-  }
+  // const handleChange=e=>{
+  //   const {name, value}=e.target;
+  //   setFieldsForm(prevState=>({
+  //     ...prevState,
+  //     [name]: value
+  //   }))
+  // }
 
   useEffect(() => {
     getAllMissions(setMissions);
   }, [missions]);
 
-  const openModal = () => {
-    setModalAdd(!modalAdd);
-  }
+  // const openModal = () => {
+  //   setModalAdd(!modalAdd);
+  // }
 
   
   return (
@@ -54,7 +54,7 @@ const ContentMissions = () => {
           <h1 className="h3 mb-0 text-gray-800">Challenges</h1>
         </div>
         <div className="td-actions">
-          <button onClick={()=> openModal()}>
+          <button>
             <i className="fas fa-plus"></i>
             <span>Add new</span>            
           </button>
@@ -81,14 +81,14 @@ const ContentMissions = () => {
                       <td>{mission.skills}</td>
                       <td>{mission.flag}</td>
                       <td className="td-actions">
-                        <a href={`/missions/${mission.id}`}>
+                        <button >
                           <i className="fas fa-edit"></i>
                           <span>Edit</span>
-                        </a>
-                        <a href={`/missions/${mission.id}`}>
+                        </button>
+                        <button >
                           <i className="fas fa-trash-alt"></i>
                           <span>Delete</span>
-                        </a>
+                        </button>
                       </td>
                     </tr>  
                   
@@ -101,7 +101,7 @@ const ContentMissions = () => {
     </div>
 
     {/* Modal Add */}
-    <Modal isOpen={modalAdd}>
+    <Modal >
           <ModalHeader>
            <div><h3>Add Mission</h3></div>
           </ModalHeader>
@@ -129,7 +129,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="title"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             
@@ -141,7 +141,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="description"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -152,7 +152,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="points"
                 type="number"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -163,7 +163,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="skills"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -174,7 +174,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="role"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -185,7 +185,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="time"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -196,7 +196,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="flag"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -207,7 +207,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="category"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -218,7 +218,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="visualization"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -229,7 +229,7 @@ const ContentMissions = () => {
                 className="form-control"
                 name="competence"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
@@ -240,21 +240,19 @@ const ContentMissions = () => {
                 className="form-control"
                 name="isAvailable"
                 type="text"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
             </FormGroup>
           </ModalBody>
 
           <ModalFooter>
             <Button
-              color="primary"
-              onClick={() => openModal()}      
+              color="primary"       
             >
               Insert
             </Button>
             <Button
               className="btn btn-danger"
-              onClick={fieldsForm}
             >
               Cancel
             </Button>
