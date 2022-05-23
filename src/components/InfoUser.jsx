@@ -2,30 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Import function findOneUser
-import { findOneUser, update } from '../functions/requests';
+import { findOneUser } from '../functions/requests';
 
 const Infouser = () => {
 
   const {id} = useParams();
 
   const [userInfo, setUserInfo] = useState(null);
-  const [state, setState] = useState();
 
   useEffect(() => {
     findOneUser(id,setUserInfo);
   },[id]);
-
-
-
-  const handleChange = async (e) =>{
-    await setState({
-        form:{
-            ...state.form,
-            [e.target.name]: e.target.value
-        }
-    });
-    console.log(this.form)
-  }
 
   return (
     <>
@@ -35,7 +22,7 @@ const Infouser = () => {
         <div className="flex-v">
         <div className="flex-v">
           <label for="nameUser">Name</label>
-          <input type="text" name="nameUser" className="input-form" value={userInfo.name} onChange={handleChange()}/>
+          <input type="text" name="nameUser" className="input-form" value={userInfo.name}/>
         </div>
         <div className="flex-v">
           <label for="lastname">Lastname</label>
@@ -57,7 +44,7 @@ const Infouser = () => {
         </div>
         <div className="td-actions">
           <a href="/users" className="btn-logout">Cancelar</a>
-          <button type="submit" className="btn-logout" onClick={()=> update()}>Editar</button>
+          <button type="submit" className="btn-logout" >Editar</button>
         </div>
       </div>
         </>

@@ -15,9 +15,30 @@ export const getAllUsers = async (state) => {
   state(request.data);
 }
 
+export const findOneUser = async (idUser, state) => {
+  const request = await axios.get(`https://api-capture-the-flag.herokuapp.com/api/users/${idUser}`);
+  state(request.data);
+}
+
 export const getAllMissions = async (state) => {
   const request = await axios.get('https://api-capture-the-flag.herokuapp.com/api/missions');
   state(request.data);
+}
+
+export const findOneMission = async (idMission, state) => {
+  const request = await axios.get(`https://api-capture-the-flag.herokuapp.com/api/missions/${idMission}`);
+  state(request.data);
+}
+
+export const addMission = async (body, state) => {
+  const response = await axios.post('https://api-capture-the-flag.herokuapp.com/api/missions/',body)
+  state(response.data);
+  
+}
+
+export const addUsers = async (body, state) => {
+  const request = await axios.post('https://api-capture-the-flag.herokuapp.com/api/users/',body)
+  state(request.data)
 }
 
 export const login = async(state)=>{
@@ -45,10 +66,6 @@ export const login = async(state)=>{
   }
 }
 
-export const findOneUser = async (idUser, state) => {
-  const request = await axios.get(`https://api-capture-the-flag.herokuapp.com/api/users/${idUser}`);
-  state(request.data);
-}
 
 export const userLogout = () => {
   cookies.remove('id', {path: '/'});
@@ -59,6 +76,3 @@ export const userLogout = () => {
   window.location.href="./";
 }
 
-export const update = () =>{
-
-}
